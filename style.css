@@ -48,15 +48,53 @@ input {
     margin: 10px 0 0;
 }
 
-/* Watchlist specific styling */
-.movie.watched {
+/* Watchlist grid layout */
+#watchlist {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    margin-top: 20px;
+}
+
+.watchlist-movie {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.watchlist-movie img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+.watchlist-movie h3 {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.watchlist-movie.watched {
     opacity: 0.6;
     text-decoration: line-through;
 }
 
-button {
-    padding: 5px 10px;
+.watchlist-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     margin-top: 10px;
+    gap: 5px;
+}
+
+.watchlist-buttons button {
+    flex: 1;
+    padding: 5px;
     border: none;
     border-radius: 3px;
     cursor: pointer;
@@ -65,8 +103,10 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
+.watchlist-buttons button:hover {
     background-color: #0056b3;
 }
+
+
 
 
