@@ -2,13 +2,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     const resultsDiv = document.getElementById('results');
-    const watchlistDiv = document.getElementById('watchlist');
+    
 
     let debounceTimeout;
 
     // Load popular movies when the page loads
     fetchPopularMovies();
-    loadWatchlist();
 
     // Search functionality with debounce
     searchInput.addEventListener('input', () => {
@@ -64,6 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const movieDiv = document.createElement('div');
             movieDiv.classList.add('movie');
 
+        const addButton = document.createElement('button');
+        addButton.textContent = 'Add to Watchlist';
+        addButton.addEventListener('click', () => {
+        addToWatchlist(movie);
+     });
+
             const image = document.createElement('img');
             image.src = movie.poster_path
                 ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
@@ -72,49 +77,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const title = document.createElement('h3');
             title.textContent = movie.title;
 
-            const addButton = document.createElement('button');
-            addButton.textContent = 'Add to Watchlist';
-            addButton.addEventListener('click', () => addToWatchlist(movie));
+        
 
             movieDiv.appendChild(image);
             movieDiv.appendChild(title);
             movieDiv.appendChild(addButton);
+        
             resultsDiv.appendChild(movieDiv);
         });
     }
-
-    // Watchlist functionality
+    
+    // Watchlist logic add here
     function addToWatchlist(movie) {
-        let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
-
-        if (!watchlist.find(item => item.id === movie.id)) {
-            watchlist.push(movie);
-            localStorage.setItem('watchlist', JSON.stringify(watchlist));
-            loadWatchlist();
-        }
-    }
-    
-    function loadWatchlist() {
-        const watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
-        watchlistDiv.innerHTML = '';
-
-        watchlist.forEach(movie => {
-            const listItem = document.createElement('li');
-            listItem.textContent = movie.title;
-
-            const removeButton = document.createElement('button');
-            removeButton.textContent = 'Remove';
-            removeButton.addEventListener('click', () => removeFromWatchlist(movie.id));
-
-            listItem.appendChild(removeButton);
-            watchlistDiv.appendChild(listItem);
-        });
-    }
-    
-    function removeFromWatchlist(movieId) {
-        let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
-        watchlist = watchlist.filter(movie => movie.id !== movieId);
+    let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+    // Avoid duplicates
+    if (!watchlist.find(item => item.id === movie.id)) {
+        watchlist.push(movie);
         localStorage.setItem('watchlist', JSON.stringify(watchlist));
-        loadWatchlist();
+        alert(`${movie.title} added to watchlist!`);
+    } else {
+        alert(`${movie.title} is already in your watchlist.`);
+     }
     }
+
 });
