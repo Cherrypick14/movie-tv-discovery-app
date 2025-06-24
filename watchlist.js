@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     watchlistDiv.innerHTML = '';
     watchlist.forEach(movie => {
         const movieDiv = document.createElement('div');
-        movieDiv.classList.add('movie');
+        movieDiv.classList.add('watchlist-movie');
         
          if (movie.watched) {
             movieDiv.classList.add('watched');
@@ -24,6 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const title = document.createElement('h3');
         title.textContent = movie.title;
 
+        // Wrap buttons in a div for better layout
+        const buttonsDiv = document.createElement('div');
+        buttonsDiv.classList.add('watchlist-buttons');
+
         const toggleButton = document.createElement('button');
         toggleButton.textContent = movie.watched ? 'Mark as Unwatched' : 'Mark as Watched';
         toggleButton.addEventListener('click', () => {
@@ -31,15 +35,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const removeButton = document.createElement('button');
-        removeButton.textContent = 'Remove from Watchlist';
+        removeButton.textContent = 'Remove';
         removeButton.addEventListener('click', () => {
             removeFromWatchlist(movie.id);
         });
+       
+        buttonsDiv.appendChild(toggleButton);
+        buttonsDiv.appendChild(removeButton);
 
         movieDiv.appendChild(image);
         movieDiv.appendChild(title);
-        movieDiv.appendChild(toggleButton);
-        movieDiv.appendChild(removeButton);
+        movieDiv.appendChild(buttonsDiv);
+        
         watchlistDiv.appendChild(movieDiv);
     });
 });
