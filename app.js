@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     const resultsDiv = document.getElementById('results');
-    // const trendingDiv = document.getElementById('trending');
+    
 
     let debounceTimeout;
 
@@ -82,7 +82,7 @@ function startCarousel() {
     setInterval(() => {
         currentSlide = (currentSlide + 1) % slides.length;
         carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }, 4000); // Slide every 4 seconds
+    }, 4000); 
 }
 
     // Fetch popular movies
