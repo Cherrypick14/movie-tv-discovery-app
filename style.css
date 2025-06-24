@@ -5,10 +5,57 @@ body {
     padding: 20px;
 }
 
+.dashboard {
+    width: 100%;
+}
+
+.trending-section {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.carousel {
+    position: relative;
+    width: 100%;
+    height: 60vh; /* Full dashboard style */
+    overflow: hidden;
+}
+
+.carousel-inner {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    flex: 0 0 100%;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+}
+
+.carousel-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Container for popular movies */
 .container {
     max-width: 900px;
     margin: 0 auto;
     text-align: center;
+    padding: 20px;
 }
 
 input {
@@ -47,3 +94,4 @@ input {
     font-size: 16px;
     margin: 10px 0 0;
 }
+

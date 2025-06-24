@@ -3,15 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Discovery App</title>
+    <title>Movie Discovery Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Movie Discovery</h1>
+    <div class="dashboard">
+
+        <!-- Trending Section -->
+        
+        <section class="trending-section">
+            <h2>Trending Now</h2>
+            <div id="trendingCarousel" class="carousel">
+                <div id="carouselInner" class="carousel-inner"></div>
+            </div>
+        </section>
+
+        <!-- Movie Discovery Section -->
+        <div class = container>
+          <h1>Movie Discovery</h1>
+            
+        <!-- Search Input -->
+
         <input type="text" id="searchInput" placeholder="Search for movies...">
+          <!-- Popular Movies Section -->
+        <h2>Popular Movies</h2>
         <div id="results"></div>
-    </div>
+
+        </div>
+  </div>
 
     <!-- Load config first -->
    <script src="config.js" defer></script>
