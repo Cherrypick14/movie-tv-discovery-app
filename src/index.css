@@ -1,0 +1,277 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 59 130 246;
+    --color-secondary: 100 116 139;
+    --color-accent: 168 85 247;
+    --color-background: 255 255 255;
+    --color-surface: 248 250 252;
+    --color-text: 15 23 42;
+    --color-text-muted: 100 116 139;
+    --color-border: 226 232 240;
+    --color-error: 239 68 68;
+    --color-warning: 245 158 11;
+    --color-success: 34 197 94;
+  }
+
+  .dark {
+    --color-primary: 96 165 250;
+    --color-secondary: 148 163 184;
+    --color-accent: 196 181 253;
+    --color-background: 2 6 23;
+    --color-surface: 15 23 42;
+    --color-text: 248 250 252;
+    --color-text-muted: 148 163 184;
+    --color-border: 51 65 85;
+    --color-error: 248 113 113;
+    --color-warning: 251 191 36;
+    --color-success: 74 222 128;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-surface;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-text-muted;
+  }
+
+  /* Focus styles */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  /* Loading animation */
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+}
+
+@layer components {
+  /* Button variants */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-ring disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-white hover:bg-primary/90;
+  }
+
+  .btn-secondary {
+    @apply btn bg-secondary text-white hover:bg-secondary/90;
+  }
+
+  .btn-outline {
+    @apply btn border border-border bg-transparent hover:bg-surface;
+  }
+
+  .btn-ghost {
+    @apply btn hover:bg-surface;
+  }
+
+  .btn-sm {
+    @apply h-8 px-3 text-xs;
+  }
+
+  .btn-md {
+    @apply h-10 px-4 py-2;
+  }
+
+  .btn-lg {
+    @apply h-12 px-8 text-base;
+  }
+
+  /* Input styles */
+  .input {
+    @apply flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-text-muted focus-ring disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Card styles */
+  .card {
+    @apply rounded-lg border border-border bg-surface p-6 shadow-sm;
+  }
+
+  .card-header {
+    @apply flex flex-col space-y-1.5 p-6;
+  }
+
+  .card-title {
+    @apply text-2xl font-semibold leading-none tracking-tight;
+  }
+
+  .card-description {
+    @apply text-sm text-text-muted;
+  }
+
+  .card-content {
+    @apply p-6 pt-0;
+  }
+
+  .card-footer {
+    @apply flex items-center p-6 pt-0;
+  }
+
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  .badge-default {
+    @apply badge border-transparent bg-primary text-white hover:bg-primary/80;
+  }
+
+  .badge-secondary {
+    @apply badge border-transparent bg-secondary text-white hover:bg-secondary/80;
+  }
+
+  .badge-outline {
+    @apply badge text-foreground;
+  }
+
+  /* Movie card specific styles */
+  .movie-card {
+    @apply group relative overflow-hidden rounded-lg bg-surface shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105;
+  }
+
+  .movie-card-image {
+    @apply aspect-[2/3] w-full object-cover transition-transform duration-300 group-hover:scale-110;
+  }
+
+  .movie-card-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100;
+  }
+
+  .movie-card-content {
+    @apply absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full transition-transform duration-300 group-hover:translate-y-0;
+  }
+
+  /* Loading skeleton */
+  .skeleton {
+    @apply animate-pulse bg-border rounded;
+  }
+
+  /* Grid layouts */
+  .grid-responsive {
+    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4;
+  }
+
+  .grid-responsive-large {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6;
+  }
+
+  /* Utility classes */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .glass-dark {
+    @apply bg-black/10 backdrop-blur-md border border-black/20;
+  }
+}

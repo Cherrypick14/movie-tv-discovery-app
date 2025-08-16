@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/Cherrypick14/movie-tv-discovery-app/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 📚 Documentation
+    url: https://github.com/Cherrypick14/movie-tv-discovery-app#readme
+    about: Read the project documentation
+  - name: 🔒 Security Issues
+    url: https://github.com/Cherrypick14/movie-tv-discovery-app/security/advisories/new
+    about: Report security vulnerabilities privately

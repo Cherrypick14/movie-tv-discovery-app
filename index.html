@@ -1,20 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Discovery App</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Movie Discovery</h1>
-        <input type="text" id="searchInput" placeholder="Search for movies...">
-        <div id="results"></div>
-    </div>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/movie-icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Discover movies and TV shows with our comprehensive entertainment platform. Search, explore, and manage your watchlist." />
+    <meta name="keywords" content="movies, TV shows, entertainment, discovery, watchlist, TMDB, OMDB" />
+    <meta name="author" content="Movie Discovery App" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://movie-tv-discovery-app.vercel.app/" />
+    <meta property="og:title" content="Movie & TV Discovery App" />
+    <meta property="og:description" content="Discover movies and TV shows with our comprehensive entertainment platform" />
+    <meta property="og:image" content="/og-image.png" />
 
-    <!-- Load config first -->
-   <script src="config.js" defer></script>
-   <script src="app.js" defer></script>
-</body>
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://movie-tv-discovery-app.vercel.app/" />
+    <meta property="twitter:title" content="Movie & TV Discovery App" />
+    <meta property="twitter:description" content="Discover movies and TV shows with our comprehensive entertainment platform" />
+    <meta property="twitter:image" content="/og-image.png" />
+
+    <title>Movie & TV Discovery App</title>
+    
+    <!-- Preconnect to external domains for better performance -->
+    <link rel="preconnect" href="https://api.themoviedb.org" />
+    <link rel="preconnect" href="https://image.tmdb.org" />
+    <link rel="preconnect" href="https://www.omdbapi.com" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
