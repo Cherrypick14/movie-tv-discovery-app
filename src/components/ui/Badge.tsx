@@ -11,8 +11,8 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
     const baseClasses = 'badge';
     
     const variantClasses = {
-      default: 'badge-default',
-      secondary: 'badge-secondary',
+      default: 'badge-default hover:bg-blue-700',
+      secondary: 'badge-secondary hover:bg-gray-700',
       outline: 'badge-outline',
       destructive: 'border-transparent bg-red-600 text-white hover:bg-red-700',
       success: 'border-transparent bg-green-600 text-white hover:bg-green-700',

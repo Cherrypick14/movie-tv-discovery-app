@@ -58,7 +58,7 @@ const MovieCard: React.FC<MediaCardProps> = ({
   return (
     <Card
       className={cn(
-        'movie-card cursor-pointer',
+        'movie-card cursor-pointer group hover:shadow-lg hover:scale-105',
         sizeClasses[size],
         className
       )}
@@ -75,7 +75,7 @@ const MovieCard: React.FC<MediaCardProps> = ({
             src={posterUrl}
             alt={`${title} poster`}
             className={cn(
-              'movie-card-image',
+              'movie-card-image group-hover:scale-110',
               !imageLoaded && 'opacity-0',
               imageError && 'hidden'
             )}
@@ -94,8 +94,8 @@ const MovieCard: React.FC<MediaCardProps> = ({
           )}
 
           {/* Overlay */}
-          <div className="movie-card-overlay">
-            <div className="movie-card-content">
+          <div className="movie-card-overlay group-hover:opacity-100">
+            <div className="movie-card-content group-hover:translate-y-0">
               {/* Rating */}
               {showRating && media.vote_average > 0 && (
                 <div className="flex items-center space-x-1 mb-2">

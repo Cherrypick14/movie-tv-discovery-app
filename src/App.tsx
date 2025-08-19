@@ -109,9 +109,9 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <header className="bg-surface border-b border-border">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-4 py-6">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gradient mb-2">
@@ -191,7 +191,7 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-surface border-t border-border mt-16">
+      <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center text-gray-500 dark:text-gray-400">
             <p>&copy; 2024 Movie & TV Discovery App. Built with React & TypeScript.</p>

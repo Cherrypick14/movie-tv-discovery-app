@@ -32,11 +32,11 @@
   }
 
   * {
-    @apply border-border;
+    @apply border-gray-200 dark:border-gray-700;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
@@ -51,20 +51,20 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-surface;
+    @apply bg-gray-100 dark:bg-gray-800;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-border rounded-full;
+    @apply bg-gray-300 dark:bg-gray-600 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-text-muted;
+    @apply bg-gray-400 dark:bg-gray-500;
   }
 
   /* Focus styles */
   .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900;
   }
 
   /* Loading animation */
@@ -157,19 +157,19 @@
   }
 
   .btn-primary {
-    @apply btn bg-primary text-white hover:bg-primary/90;
+    @apply btn bg-blue-600 text-white;
   }
 
   .btn-secondary {
-    @apply btn bg-secondary text-white hover:bg-secondary/90;
+    @apply btn bg-gray-600 text-white;
   }
 
   .btn-outline {
-    @apply btn border border-border bg-transparent hover:bg-surface;
+    @apply btn border border-gray-300 dark:border-gray-600 bg-transparent;
   }
 
   .btn-ghost {
-    @apply btn hover:bg-surface;
+    @apply btn;
   }
 
   .btn-sm {
@@ -186,12 +186,12 @@
 
   /* Input styles */
   .input {
-    @apply flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-text-muted focus-ring disabled:cursor-not-allowed disabled:opacity-50;
+    @apply flex h-10 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm ring-offset-white dark:ring-offset-gray-900 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 dark:placeholder:text-gray-400 focus-ring disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   /* Card styles */
   .card {
-    @apply rounded-lg border border-border bg-surface p-6 shadow-sm;
+    @apply rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm;
   }
 
   .card-header {
@@ -203,7 +203,7 @@
   }
 
   .card-description {
-    @apply text-sm text-text-muted;
+    @apply text-sm text-gray-600 dark:text-gray-400;
   }
 
   .card-content {
@@ -216,41 +216,41 @@
 
   /* Badge styles */
   .badge {
-    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
   }
 
   .badge-default {
-    @apply badge border-transparent bg-primary text-white hover:bg-primary/80;
+    @apply badge border-transparent bg-blue-600 text-white;
   }
 
   .badge-secondary {
-    @apply badge border-transparent bg-secondary text-white hover:bg-secondary/80;
+    @apply badge border-transparent bg-gray-600 text-white;
   }
 
   .badge-outline {
-    @apply badge text-foreground;
+    @apply badge text-gray-900 dark:text-gray-100;
   }
 
   /* Movie card specific styles */
   .movie-card {
-    @apply group relative overflow-hidden rounded-lg bg-surface shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105;
+    @apply relative overflow-hidden rounded-lg bg-white dark:bg-gray-800 shadow-md transition-all duration-300;
   }
 
   .movie-card-image {
-    @apply aspect-[2/3] w-full object-cover transition-transform duration-300 group-hover:scale-110;
+    @apply aspect-[2/3] w-full object-cover transition-transform duration-300;
   }
 
   .movie-card-overlay {
-    @apply absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100;
+    @apply absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity duration-300;
   }
 
   .movie-card-content {
-    @apply absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full transition-transform duration-300 group-hover:translate-y-0;
+    @apply absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full transition-transform duration-300;
   }
 
   /* Loading skeleton */
   .skeleton {
-    @apply animate-pulse bg-border rounded;
+    @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
   }
 
   /* Grid layouts */
@@ -264,7 +264,7 @@
 
   /* Utility classes */
   .text-gradient {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent;
   }
 
   .glass {

@@ -274,5 +274,5 @@ export class OMDBClient extends BaseAPIClient {
 export const tmdbClient = new TMDBClient();
 export const omdbClient = new OMDBClient();
 
-// Export error class and base client for testing
-export { APIException, BaseAPIClient };
+// Export base client for testing (APIException is already exported above)
+export { BaseAPIClient };
