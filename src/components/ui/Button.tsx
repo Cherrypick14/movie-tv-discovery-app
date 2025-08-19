@@ -24,10 +24,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseClasses = 'btn focus-ring';
     
     const variantClasses = {
-      primary: 'btn-primary hover:bg-blue-700',
-      secondary: 'btn-secondary hover:bg-gray-700',
-      outline: 'btn-outline hover:bg-gray-50 dark:hover:bg-gray-800',
-      ghost: 'btn-ghost hover:bg-gray-50 dark:hover:bg-gray-800',
+      primary: 'btn-primary hover:bg-primary-700',
+      secondary: 'btn-secondary hover:bg-dark-600',
+      outline: 'btn-outline hover:bg-dark-700',
+      ghost: 'btn-ghost hover:bg-dark-700',
       destructive: 'bg-red-600 text-white hover:bg-red-700',
     };
     

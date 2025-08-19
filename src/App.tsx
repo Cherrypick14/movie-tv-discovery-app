@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Search, Play, Star, Calendar, Clock, TrendingUp, Film, Tv, Home, Bookmark, Settings, User } from 'lucide-react';
 import { SearchBar } from '@/components/search/SearchBar';
 import { MovieGrid } from '@/components/movie/MovieGrid';
-import { Button, Loading } from '@/components/ui';
+import { Button, Loading, Card, Badge } from '@/components/ui';
 import { mediaService } from '@/services';
 import { MediaItem, APIError } from '@/types';
 import { errorHelpers } from '@/utils';
@@ -9,25 +10,37 @@ import { errorHelpers } from '@/utils';
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [movies, setMovies] = useState<MediaItem[]>([]);
+  const [trendingMovies, setTrendingMovies] = useState<MediaItem[]>([]);
+  const [popularMovies, setPopularMovies] = useState<MediaItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [activeSection, setActiveSection] = useState('home');
 
-  // Load popular movies on initial load
+  // Load initial content
   useEffect(() => {
-    loadPopularMovies();
+    loadInitialContent();
   }, []);
 
-  const loadPopularMovies = async () => {
+  const loadInitialContent = async () => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      const response = await mediaService.getPopularContent(1);
-      if (response.movies) {
-        setMovies(response.movies.results);
-        setHasMore(response.movies.page < response.movies.total_pages);
+      const [popularResponse, trendingResponse] = await Promise.allSettled([
+        mediaService.getPopularContent(1),
+        mediaService.getTrendingContent('day')
+      ]);
+
+      if (popularResponse.status === 'fulfilled' && popularResponse.value.movies) {
+        setPopularMovies(popularResponse.value.movies.results.slice(0, 12));
+        setMovies(popularResponse.value.movies.results);
+        setHasMore(popularResponse.value.movies.page < popularResponse.value.movies.total_pages);
+      }
+
+      if (trendingResponse.status === 'fulfilled' && trendingResponse.value.movies) {
+        setTrendingMovies(trendingResponse.value.movies.results.slice(0, 6));
       }
     } catch (err) {
       setError(errorHelpers.getErrorMessage(err));
@@ -109,105 +122,210 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-        <div className="container mx-auto px-4 py-6">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gradient mb-2">
-              Movie & TV Discovery
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              Discover your next favorite movie or TV show
-            </p>
+    <div className="min-h-screen bg-dark-950 text-gray-100">
+      {/* Sidebar Navigation */}
+      <aside className="fixed left-0 top-0 h-full w-64 bg-dark-900 border-r border-dark-700 z-50">
+        <div className="p-6">
+          <div className="flex items-center space-x-2 mb-8">
+            <div className="w-8 h-8 bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
+              <Film className="w-5 h-5 text-white" />
+            </div>
+            <h1 className="text-xl font-bold text-gradient">CinemaHub</h1>
           </div>
-          
-          <SearchBar
-            value={searchQuery}
-            onChange={setSearchQuery}
-            onSubmit={handleSearch}
-            isLoading={isLoading}
-          />
+
+          <nav className="space-y-2">
+            {[
+              { id: 'home', label: 'Home', icon: Home },
+              { id: 'movies', label: 'Movies', icon: Film },
+              { id: 'tv', label: 'TV Shows', icon: Tv },
+              { id: 'trending', label: 'Trending', icon: TrendingUp },
+              { id: 'watchlist', label: 'Watchlist', icon: Bookmark },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveSection(item.id)}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                    activeSection === item.id
+                      ? 'bg-primary-600 text-white'
+                      : 'text-gray-400 hover:text-white hover:bg-dark-800'
+                  }`}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
+          </nav>
         </div>
-      </header>
+
+        <div className="absolute bottom-6 left-6 right-6">
+          <div className="flex items-center space-x-3 p-3 bg-dark-800 rounded-lg">
+            <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+              <User className="w-4 h-4" />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium">John Doe</p>
+              <p className="text-xs text-gray-400">Premium User</p>
+            </div>
+            <Settings className="w-4 h-4 text-gray-400" />
+          </div>
+        </div>
+      </aside>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        {error && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-            <div className="flex items-center">
-              <div className="text-red-600 dark:text-red-400">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-red-800 dark:text-red-200">
-                  Error loading content
-                </h3>
-                <p className="text-sm text-red-700 dark:text-red-300 mt-1">
-                  {error}
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Results Section */}
-        <section>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-semibold">
-              {searchQuery.trim() ? `Search Results for "${searchQuery}"` : 'Popular Movies & TV Shows'}
-            </h2>
-            
-            {movies.length > 0 && (
-              <p className="text-gray-500 dark:text-gray-400">
-                {movies.length} results
-              </p>
-            )}
-          </div>
-
-          <MovieGrid
-            movies={movies}
-            isLoading={isLoading && movies.length === 0}
-            onMovieSelect={handleMovieSelect}
-            emptyMessage={searchQuery.trim() ? 'No results found for your search' : 'No popular content available'}
-          />
-
-          {/* Load More Button */}
-          {hasMore && movies.length > 0 && (
-            <div className="flex justify-center mt-8">
-              <Button
-                onClick={loadMore}
+      <main className="ml-64 min-h-screen">
+        {/* Top Bar */}
+        <header className="bg-dark-900 border-b border-dark-700 px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex-1 max-w-xl">
+              <SearchBar
+                value={searchQuery}
+                onChange={setSearchQuery}
+                onSubmit={handleSearch}
                 isLoading={isLoading}
-                variant="outline"
-                size="lg"
-              >
-                {isLoading ? 'Loading...' : 'Load More'}
+                placeholder="Search movies, TV shows..."
+                className="w-full"
+              />
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button variant="ghost" className="p-2">
+                <Search className="w-5 h-5" />
               </Button>
             </div>
+          </div>
+        </header>
+
+        {/* Content Area */}
+        <div className="p-8">
+          {error && (
+            <div className="mb-6 p-4 bg-red-900/20 border border-red-800 rounded-lg">
+              <div className="flex items-center">
+                <div className="text-red-400">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-red-200">
+                    Error loading content
+                  </h3>
+                  <p className="text-sm text-red-300 mt-1">
+                    {error}
+                  </p>
+                </div>
+              </div>
+            </div>
           )}
-        </section>
+
+          {/* Hero Section */}
+          {!searchQuery && trendingMovies.length > 0 && (
+            <section className="mb-12">
+              <div className="relative h-96 rounded-2xl overflow-hidden bg-gradient-to-r from-dark-900 to-dark-800">
+                <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent z-10" />
+                <div className="absolute inset-0 z-20 flex items-center">
+                  <div className="px-12">
+                    <Badge variant="default" className="mb-4">
+                      <TrendingUp className="w-3 h-3 mr-1" />
+                      Trending Now
+                    </Badge>
+                    <h2 className="text-5xl font-bold mb-4 text-white">
+                      Discover Amazing
+                      <br />
+                      <span className="text-gradient">Movies & Shows</span>
+                    </h2>
+                    <p className="text-xl text-gray-300 mb-8 max-w-lg">
+                      Explore thousands of movies and TV shows. Find your next favorite entertainment.
+                    </p>
+                    <div className="flex items-center space-x-4">
+                      <Button variant="primary" size="lg" className="px-8">
+                        <Play className="w-5 h-5 mr-2" />
+                        Start Watching
+                      </Button>
+                      <Button variant="outline" size="lg" className="px-8">
+                        Learn More
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* Trending Section */}
+          {!searchQuery && trendingMovies.length > 0 && (
+            <section className="mb-12">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">Trending This Week</h2>
+                <Button variant="ghost" className="text-primary-400 hover:text-primary-300">
+                  View All
+                </Button>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                {trendingMovies.map((movie, index) => (
+                  <div key={movie.id} className="group cursor-pointer" onClick={() => handleMovieSelect(movie)}>
+                    <div className="relative aspect-[2/3] rounded-lg overflow-hidden bg-dark-800">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                      <div className="absolute top-2 left-2 z-20">
+                        <Badge variant="default" size="sm">
+                          #{index + 1}
+                        </Badge>
+                      </div>
+                      <div className="absolute bottom-2 left-2 right-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center space-x-1 text-xs text-white mb-1">
+                          <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                          <span>{movie.vote_average.toFixed(1)}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <h3 className="mt-2 text-sm font-medium text-white group-hover:text-primary-400 transition-colors line-clamp-2">
+                      {movie.title || movie.name}
+                    </h3>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Main Content Section */}
+          <section>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-white">
+                {searchQuery.trim() ? `Search Results for "${searchQuery}"` : 'Popular Movies & TV Shows'}
+              </h2>
+
+              {movies.length > 0 && (
+                <p className="text-gray-400">
+                  {movies.length} results
+                </p>
+              )}
+            </div>
+
+            <MovieGrid
+              movies={movies}
+              isLoading={isLoading && movies.length === 0}
+              onMovieSelect={handleMovieSelect}
+              emptyMessage={searchQuery.trim() ? 'No results found for your search' : 'No popular content available'}
+            />
+
+            {/* Load More Button */}
+            {hasMore && movies.length > 0 && (
+              <div className="flex justify-center mt-8">
+                <Button
+                  onClick={loadMore}
+                  isLoading={isLoading}
+                  variant="outline"
+                  size="lg"
+                >
+                  {isLoading ? 'Loading...' : 'Load More'}
+                </Button>
+              </div>
+            )}
+          </section>
+        </div>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-gray-500 dark:text-gray-400">
-            <p>&copy; 2024 Movie & TV Discovery App. Built with React & TypeScript.</p>
-            <p className="mt-2 text-sm">
-              Data provided by{' '}
-              <a href="https://www.themoviedb.org/" className="text-primary hover:underline">
-                The Movie Database (TMDB)
-              </a>
-              {' '}and{' '}
-              <a href="https://www.omdbapi.com/" className="text-primary hover:underline">
-                OMDb API
-              </a>
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

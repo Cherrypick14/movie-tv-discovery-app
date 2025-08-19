@@ -9,8 +9,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', ...props }, ref) => {
     const variantClasses = {
       default: 'card',
-      elevated: 'card shadow-lg',
-      outlined: 'border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 rounded-lg',
+      elevated: 'card shadow-xl',
+      outlined: 'border-2 border-dark-600 bg-dark-800 p-6 rounded-lg',
     };
 
     return (

@@ -4,29 +4,29 @@
 
 @layer base {
   :root {
-    --color-primary: 59 130 246;
-    --color-secondary: 100 116 139;
-    --color-accent: 168 85 247;
-    --color-background: 255 255 255;
-    --color-surface: 248 250 252;
-    --color-text: 15 23 42;
-    --color-text-muted: 100 116 139;
-    --color-border: 226 232 240;
+    --color-primary: 239 68 68;
+    --color-accent: 249 115 22;
+    --color-background: 2 6 23;
+    --color-surface: 15 23 42;
+    --color-card: 30 41 59;
+    --color-text: 248 250 252;
+    --color-text-muted: 148 163 184;
+    --color-border: 51 65 85;
     --color-error: 239 68 68;
     --color-warning: 245 158 11;
     --color-success: 34 197 94;
   }
 
   .dark {
-    --color-primary: 96 165 250;
-    --color-secondary: 148 163 184;
-    --color-accent: 196 181 253;
+    --color-primary: 239 68 68;
+    --color-accent: 249 115 22;
     --color-background: 2 6 23;
     --color-surface: 15 23 42;
+    --color-card: 30 41 59;
     --color-text: 248 250 252;
     --color-text-muted: 148 163 184;
     --color-border: 51 65 85;
-    --color-error: 248 113 113;
+    --color-error: 239 68 68;
     --color-warning: 251 191 36;
     --color-success: 74 222 128;
   }
@@ -36,8 +36,9 @@
   }
 
   body {
-    @apply bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+    @apply bg-dark-950 text-gray-100;
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 
   html {
@@ -64,7 +65,7 @@
 
   /* Focus styles */
   .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-950;
   }
 
   /* Loading animation */
@@ -157,15 +158,15 @@
   }
 
   .btn-primary {
-    @apply btn bg-blue-600 text-white;
+    @apply btn bg-primary-600 text-white;
   }
 
   .btn-secondary {
-    @apply btn bg-gray-600 text-white;
+    @apply btn bg-dark-700 text-white;
   }
 
   .btn-outline {
-    @apply btn border border-gray-300 dark:border-gray-600 bg-transparent;
+    @apply btn border border-dark-600 bg-transparent;
   }
 
   .btn-ghost {
@@ -186,12 +187,12 @@
 
   /* Input styles */
   .input {
-    @apply flex h-10 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm ring-offset-white dark:ring-offset-gray-900 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 dark:placeholder:text-gray-400 focus-ring disabled:cursor-not-allowed disabled:opacity-50;
+    @apply flex h-10 w-full rounded-md border border-dark-600 bg-dark-800 px-3 py-2 text-sm text-gray-100 ring-offset-dark-950 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus-ring disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   /* Card styles */
   .card {
-    @apply rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm;
+    @apply rounded-lg border border-dark-700 bg-dark-800 p-6 shadow-lg;
   }
 
   .card-header {
@@ -203,7 +204,7 @@
   }
 
   .card-description {
-    @apply text-sm text-gray-600 dark:text-gray-400;
+    @apply text-sm text-gray-400;
   }
 
   .card-content {
@@ -216,24 +217,24 @@
 
   /* Badge styles */
   .badge {
-    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
   }
 
   .badge-default {
-    @apply badge border-transparent bg-blue-600 text-white;
+    @apply badge border-transparent bg-primary-600 text-white;
   }
 
   .badge-secondary {
-    @apply badge border-transparent bg-gray-600 text-white;
+    @apply badge border-transparent bg-dark-700 text-white;
   }
 
   .badge-outline {
-    @apply badge text-gray-900 dark:text-gray-100;
+    @apply badge text-gray-100;
   }
 
   /* Movie card specific styles */
   .movie-card {
-    @apply relative overflow-hidden rounded-lg bg-white dark:bg-gray-800 shadow-md transition-all duration-300;
+    @apply relative overflow-hidden rounded-lg bg-dark-800 shadow-lg transition-all duration-300;
   }
 
   .movie-card-image {
@@ -264,7 +265,7 @@
 
   /* Utility classes */
   .text-gradient {
-    @apply bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary-500 to-accent-500 bg-clip-text text-transparent;
   }
 
   .glass {
@@ -273,5 +274,30 @@
 
   .glass-dark {
     @apply bg-black/10 backdrop-blur-md border border-black/20;
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
 }
