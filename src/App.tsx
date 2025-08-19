@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Play, Star, Calendar, Clock, TrendingUp, Film, Tv, Home, Bookmark, Settings, User } from 'lucide-react';
+import { Search, Play, Star, Calendar, Clock, TrendingUp, Film, Tv, Home, Bookmark, Settings, User, Sun, Moon } from 'lucide-react';
 import { SearchBar } from '@/components/search/SearchBar';
 import { MovieGrid } from '@/components/movie/MovieGrid';
 import { Button, Loading, Card, Badge } from '@/components/ui';
@@ -17,11 +17,25 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
+  const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark mode for cinema feel
 
   // Load initial content
   useEffect(() => {
     loadInitialContent();
   }, []);
+
+  // Dark mode effect
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   const loadInitialContent = async () => {
     setIsLoading(true);
@@ -122,9 +136,9 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-950 text-gray-100">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-950 text-gray-900 dark:text-gray-100">
       {/* Sidebar Navigation */}
-      <aside className="fixed left-0 top-0 h-full w-64 bg-dark-900 border-r border-dark-700 z-50">
+      <aside className="fixed left-0 top-0 h-full w-64 bg-white dark:bg-dark-900 border-r border-gray-200 dark:border-dark-700 z-50">
         <div className="p-6">
           <div className="flex items-center space-x-2 mb-8">
             <div className="w-8 h-8 bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
@@ -149,7 +163,7 @@ function App() {
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                     activeSection === item.id
                       ? 'bg-primary-600 text-white'
-                      : 'text-gray-400 hover:text-white hover:bg-dark-800'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-dark-800'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -161,15 +175,15 @@ function App() {
         </div>
 
         <div className="absolute bottom-6 left-6 right-6">
-          <div className="flex items-center space-x-3 p-3 bg-dark-800 rounded-lg">
-            <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
-              <User className="w-4 h-4" />
+          <div className="flex items-center space-x-3 p-3 bg-gray-100 dark:bg-dark-800 rounded-lg">
+            <div className="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
+              <User className="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium">John Doe</p>
-              <p className="text-xs text-gray-400">Premium User</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">John Doe</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Premium User</p>
             </div>
-            <Settings className="w-4 h-4 text-gray-400" />
+            <Settings className="w-4 h-4 text-gray-500 dark:text-gray-400" />
           </div>
         </div>
       </aside>
@@ -177,21 +191,29 @@ function App() {
       {/* Main Content */}
       <main className="ml-64 min-h-screen">
         {/* Top Bar */}
-        <header className="bg-dark-900 border-b border-dark-700 px-8 py-4">
+        <header className="bg-white dark:bg-dark-900 border-b border-gray-200 dark:border-dark-700 px-8 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex-1 max-w-xl">
-              <SearchBar
-                value={searchQuery}
-                onChange={setSearchQuery}
-                onSubmit={handleSearch}
-                isLoading={isLoading}
-                placeholder="Search movies, TV shows..."
-                className="w-full"
-              />
+            <div className="flex-1 flex justify-center">
+              <div className="w-full max-w-2xl">
+                <SearchBar
+                  value={searchQuery}
+                  onChange={setSearchQuery}
+                  onSubmit={handleSearch}
+                  isLoading={isLoading}
+                  placeholder='Try searching for "Inception", "Breaking Bad", or "Marvel"'
+                  className="w-full"
+                />
+              </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" className="p-2">
-                <Search className="w-5 h-5" />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleDarkMode}
+                className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
+                aria-label="Toggle dark mode"
+              >
+                {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               </Button>
             </div>
           </div>
