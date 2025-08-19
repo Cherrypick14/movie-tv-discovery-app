@@ -48,56 +48,46 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className={className}>
-      <div className="relative max-w-2xl mx-auto">
-        <Input
-          type="text"
-          value={localValue}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          placeholder={placeholder}
-          className="pl-12 pr-20 h-12 text-lg"
-          leftIcon={
-            isLoading ? (
+      <div className="relative">
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            {isLoading ? (
               <div className="animate-spin">
-                <Search className="h-5 w-5" />
+                <Search className={`h-5 w-5 transition-colors ${
+                  localValue.trim() ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'
+                }`} />
               </div>
             ) : (
-              <Search className="h-5 w-5" />
-            )
-          }
-        />
-        
-        <div className="absolute inset-y-0 right-0 flex items-center space-x-1 pr-2">
+              <Search className={`h-5 w-5 transition-colors cursor-pointer ${
+                localValue.trim() ? 'text-primary-500' : 'text-gray-400 dark:text-gray-500'
+              }`} />
+            )}
+          </div>
+
+          <input
+            type="text"
+            value={localValue}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            placeholder={placeholder}
+            className="w-full pl-12 pr-10 py-3 text-base bg-transparent text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none border-0 border-b border-gray-300 dark:border-gray-600 focus:border-primary-400 transition-colors"
+          />
+
           {localValue && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={handleClear}
-              className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-800"
-              aria-label="Clear search"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={handleClear}
+                className="h-6 w-6 p-0 hover:bg-gray-100 dark:hover:bg-dark-700 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-full"
+                aria-label="Clear search"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
           )}
-          
-          <Button
-            type="submit"
-            variant="primary"
-            size="sm"
-            disabled={!localValue.trim() || isLoading}
-            className="h-8"
-          >
-            Search
-          </Button>
         </div>
-      </div>
-      
-      {/* Search suggestions could go here */}
-      <div className="mt-2 text-center">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          Try searching for "Inception", "Breaking Bad", or "Marvel"
-        </p>
       </div>
     </form>
   );
